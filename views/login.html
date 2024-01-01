@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .container {
+            width: 400px;
+            padding: 40px;
+            background-color: #222;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        input[type="email"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+        }
+        input[type="submit"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5C7AEA;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #435B9D;
+        }
+        a {
+            color: #5C7AEA;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        label {
+            text-align: left;
+            display: block;
+            margin-top: 20px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="/login" method="POST">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <input type="submit" value="Login">
+        </form>
+        <p>
+            OR 
+        </p>
+
+        <form action="/auth/google" method="GET">
+            <input type="submit" value="Login with Google" style="margin-top: 10px;">
+        </form>
+        <p>
+            Forgot password? <a href="/forgot-password">Reset here</a>
+        </p>
+
+        <p>
+            Dont have an account? <a href="/register">Sign Up</a>
+        </p>
+      
+    </div>
+</body>
+</html>

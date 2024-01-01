@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+            position: relative; /* Needed for absolute positioning of children */
+        }
+        .profile-container {
+            width: 400px;
+            padding: 40px;
+            background-color: #222;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 20px;
+            background-color: #fff;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        input[type="submit"], button {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5C7AEA;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #435B9D;
+        }
+        label {
+            text-align: left;
+            display: block;
+            margin-top: 20px;
+            color: #888;
+        }
+        .delete-button-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        #deleteProfileButton {
+            padding: 5px 10px; /* Smaller padding for a smaller button */
+            font-size: 14px; /* Smaller font size */
+            background-color: #5C7AEA;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container for the delete button -->
+    <div class="delete-button-container">
+        <button id="deleteProfileButton">Delete Profile</button>
+    </div>
+
+    <div class="profile-container">
+        <h1>User Profile</h1>
+        <img id="profileImage" src="uploads/userProfileImages/user_profile.jpeg" alt="Profile Image">
+        <p>Name: <span id="userName">Loading...</span></p>
+        <p>Email: <span id="userEmail">Loading...</span></p>
+        <form action="/profile/image" method="POST" enctype="multipart/form-data">
+            <label for="imageUpload">Upload profile image:</label>
+            <input type="file" id="imageUpload" name="profile_image" accept="image/*" required>
+            <input type="submit" value="Upload Image">
+        </form>
+        <button onclick="location.href='update-profile'">Update Profile</button>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', async (event) => {
+            // Fetch user data including user ID
+            try {
+                const response = await fetch('/api/user/profile');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+    
+                const data = await response.json();
+                const userId = data.id;
+    
+                document.getElementById('userName').textContent = data.name || 'N/A';
+                document.getElementById('userEmail').textContent = data.email || 'N/A';
+                document.getElementById('profileImage').src = data.profile_image
+                    ? `/uploads/userProfileImages/${data.profile_image}`
+                    : 'uploads/userProfileImages/user_profile.jpeg'; // Update this path as necessary
+    
+                const deleteButton = document.getElementById('deleteProfileButton');
+                deleteButton.addEventListener('click', async () => {
+                    try {
+                        const deleteResponse = await fetch(`/delete-profile/${userId}`, {
+                            method: 'DELETE',
+                        });
+    
+                        if (deleteResponse.ok) {
+                            alert('Profile deleted successfully');
+                            window.location.href = '/register'; // Redirect as necessary
+                        } else {
+                            const errorData = await deleteResponse.json();
+                            alert(`Error: ${errorData.error}`);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred while deleting the profile.');
+                    }
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('userName').textContent = 'Error Loading Data';
+                document.getElementById('userEmail').textContent = 'Error Loading Data';
+            }
+        });
+    </script>
+</body>
+</html>

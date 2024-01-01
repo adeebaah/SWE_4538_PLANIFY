@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .task-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Management</h1>
+
+    <!-- Form to Create Task -->
+    <form id="createTaskForm">
+        <h2>Add New Task</h2>
+        <input type="text" id="title" placeholder="Title" required>
+        <textarea id="description" placeholder="Description" required></textarea>
+        <input type="date" id="dueDate">
+        <select id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- List of Tasks -->
+    <div id="tasksList">
+        <h2>Tasks</h2>
+        <!-- Tasks will be listed here -->
+    </div>
+
+    <!-- Script for CRUD operations and handling file uploads -->
+    <script>
+        // Function to create task
+        function createTask(title, description, dueDate, priority) {
+            // Implement task creation logic here
+        }
+
+        // Function to read tasks
+        function readTasks() {
+            // Implement task reading logic here
+        }
+
+        // Function to update task
+        function updateTask(id, title, description, dueDate, priority) {
+            // Implement task update logic here
+        }
+
+        // Function to delete task
+        function deleteTask(id) {
+            // Implement task deletion logic here
+        }
+
+        // Event listener for the create task form
+        document.getElementById('createTaskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const dueDate = document.getElementById('dueDate').value;
+            const priority = document.getElementById('priority').value;
+            createTask(title, description, dueDate, priority);
+        });
+
+        // Initial read of tasks on page load
+        readTasks();
+    </script>
+</body>
+</html>

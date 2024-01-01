@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .profile-container {
+            width: 400px;
+            padding: 40px;
+            background-color: #222;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5C7AEA;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #435B9D;
+        }
+        label {
+            text-align: left;
+            display: block;
+            margin-top: 10px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Update Profile</h1>
+        <form id="update-profile-form">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name"><br>
+      
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email"><br>
+      
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password"><br>
+
+          <input type="submit" value="Update Profile">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('update-profile-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/update-profile', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Optionally, you can display a success message to the user
+                    alert('Profile updated successfully');
+                    
+                    // Redirect to the user profile page
+                    window.location.href = '/profile'; // Change to your actual user profile page URL
+                } else {
+                    const errorData = await response.json();
+                    // Handle and display the error to the user
+                    alert(`Error: ${errorData.error}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Handle unexpected errors
+                alert('An error occurred while updating the profile.');
+            }
+        });
+    </script>
+</body>
+</html>
